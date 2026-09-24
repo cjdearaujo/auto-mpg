@@ -10,8 +10,8 @@ Exits with a non-zero status code if:
 --- FAILURE DEMO A (model qity gate) ---
 To deliberately weaken the model for the "failed quality gate" demonstration,
 edit ONE of the constants in the "MODEL CONFIG" block below, e.g.:
-    N_ESTIMATORS = 1
-    MAX_DEPTH = 1
+    N_ESTIMATORS = 200
+    MAX_DEPTH = None
 or:
     TRAIN_SUBSET_FRACTION = 0.05
 Commit and push. The gate will fail and no package will be published.
@@ -54,9 +54,9 @@ MARGIN = 1.0  # mpg. Candidate must beat baseline MAE by at least this much.
 # ---------------------------------------------------------------------------
 # MODEL CONFIG - this is the block to edit for Failure Demo A.
 # ---------------------------------------------------------------------------
-N_ESTIMATORS = 1
-MAX_DEPTH = 1
-TRAIN_SUBSET_FRACTION = 0.03
+N_ESTIMATORS = 200
+MAX_DEPTH = None
+TRAIN_SUBSET_FRACTION = 1.0  # 1.0 = use all training data
 
 MODEL_DIR = "models"
 MODEL_PATH = os.path.join(MODEL_DIR, "model.joblib")
