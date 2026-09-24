@@ -1,0 +1,46 @@
+name: ML Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-validate-train-test-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Load and validate dataset
+        run: python src/data.py
+
+      - name: Train baseline and candidate model, evaluate quality gate
+        run: python src/train.py
+
+      - name: Run application tests
+        run: pytest tests/ -v
+
+      - name: Build model package
+        run: |
+          mkdir -p package
+          cp models/model.joblib package/
+          cp models/metrics.json package/
+          cp src/predict.py package/
+          cp requirements.txt package/
+          echo "run_number=${{ github.run_number }}" > package/BUILD_INFO.txt
+          echo "commit_sha=${{ github.sha }}" >> package/BUILD_INFO.txt
+
+      - name: Publish model package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-package-${{ github.run_number }}-${{ github.sha }}
+          path: package/
+          if-no-files-found: error
