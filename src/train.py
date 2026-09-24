@@ -7,7 +7,7 @@ Exits with a non-zero status code if:
   - the dataset fails validation (see src/data.py), or
   - the candidate model does not beat the baseline by the required margin.
 
---- FAILURE DEMO A (model quality gate) ---
+--- FAILURE DEMO A (model qity gate) ---
 To deliberately weaken the model for the "failed quality gate" demonstration,
 edit ONE of the constants in the "MODEL CONFIG" block below, e.g.:
     N_ESTIMATORS = 1
@@ -54,9 +54,9 @@ MARGIN = 1.0  # mpg. Candidate must beat baseline MAE by at least this much.
 # ---------------------------------------------------------------------------
 # MODEL CONFIG - this is the block to edit for Failure Demo A.
 # ---------------------------------------------------------------------------
-N_ESTIMATORS = 200
-MAX_DEPTH = None
-TRAIN_SUBSET_FRACTION = 1.0  # 1.0 = use all training data
+N_ESTIMATORS = 1
+MAX_DEPTH = 1
+TRAIN_SUBSET_FRACTION = 0.03
 
 MODEL_DIR = "models"
 MODEL_PATH = os.path.join(MODEL_DIR, "model.joblib")
